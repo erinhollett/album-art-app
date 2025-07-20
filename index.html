@@ -1,0 +1,48 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Album Art App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="generator.html">Generate</a>
+      <a href="gallery.html">Gallery</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Album Art App</h1>
+    <p style="text-align: center; font-size: 1.2rem;">
+      Click on an album you want to parody and get ready to pose!
+    </p>
+
+    <div class="gallery" id="album-templates">
+      <!-- Album templates (placeholder for now) -->
+      <div class="card" onclick="goToGenerator('Album 1')">
+        <img src="templates/Album1.jpg" alt="Album 1">
+        
+      </div>
+      <div class="card" onclick="goToGenerator('Album 2')">
+        <img src="templates/Album2.jpg" alt="Album 2">
+        
+      </div>
+      <div class="card" onclick="goToGenerator('Album 3')">
+        <img src="templates/Album3.jpg" alt="Album3">
+        
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Album Art App. All rights reserved.
+  </footer>
+
+
+</body>
+</html>
