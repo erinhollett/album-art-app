@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Booth</title>
+  <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+  <h1>Photo Booth</h1>
+
+  <div id="photobooth">
+    <video id="webcamFeed" autoplay playsinline width="640" height="480"></video>
+    <canvas id="templateOverlay" width="474" height="474"></canvas>
+    <div id="countdown">3</div>
+  </div>
+
+  <button id="startBtn">Start</button>
+
+  <!-- Hidden Canvases -->
+  <canvas id="croppedSnapshot" width="480" height="480" style="display:none;"></canvas>
+  <canvas id="albumCover" width="480" height="480" style="display:none;"></canvas>
+
+  <!-- Popup of the Final Image -->
+  <div id="popup">
+    <img id="finalPhoto" src="">
+    <div class="popup-buttons">
+      <button class="try-again" onclick="retry()">Try Again</button>
+      <button class="new-template">Try Another Template</button>
+    </div>
+  </div>
+
+  <script src="album3.js"></script>
+</body>
+</html>
