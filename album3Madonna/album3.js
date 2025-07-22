@@ -1,4 +1,4 @@
-// === DOM Element References === //
+// === Element References === //
 const video = document.getElementById('webcamFeed');
 const templateOverlay = document.getElementById('templateOverlay');
 const croppedCanvas = document.getElementById('croppedSnapshot');
@@ -7,17 +7,17 @@ const countdownEl = document.getElementById('countdown');
 const popup = document.getElementById('popup');
 const finalPhoto = document.getElementById('finalPhoto');
 
-// === Canvas === //
-const templateCtx = templateOverlay.getContext('2d'); // Album Overlay
-const cropCtx = croppedCanvas.getContext('2d'); // Cropped Image Area
+const templateCtx = templateOverlay.getContext('2d');
+const cropCtx = croppedCanvas.getContext('2d');
+const albumCtx = albumCanvas.getContext('2d');
 
-// === Load Transparent Album Overlay === //
+// === Load Album Template Overlay === //
 const albumImage = new Image();
-albumImage.src = './album2.png';
+albumImage.src = './album3.jpg';
 albumImage.onload = () => {
   templateCtx.clearRect(0, 0, templateOverlay.width, templateOverlay.height);
   templateCtx.drawImage(albumImage, 0, 0, templateOverlay.width, templateOverlay.height);
-}
+};
 
 // === Start Webcam === //
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -26,75 +26,77 @@ navigator.mediaDevices.getUserMedia({ video: true })
 
 // === Start Button with Countdown === //
 document.getElementById('startBtn').addEventListener('click', async () => {
-  await countdown(3); // Initialize countdown before capture
-  capture(); 
+  await countdown(3);
+  capture();
 });
 
 // === Countdown Display === //
 async function countdown(seconds) {
-  countdownEl.style.display = 'block'; // Make it visible
-  while (seconds > 0) { // Run loop until countdown == 0
-    countdownEl.textContent = seconds; // Show current second number in the HTML
-    await new Promise(res => setTimeout(res, 1000)); // Delay 1 second
-    seconds--; // Decrease seconds left each loop iteration
+  countdownEl.style.display = 'block';
+  while (seconds > 0) {
+    countdownEl.textContent = seconds;
+    await new Promise(res => setTimeout(res, 1000));
+    seconds--;
   }
   countdownEl.textContent = '';
   countdownEl.style.display = 'none';
 }
 
-// === Sepia Filter === //
+// === Apply Filter (Sepia Grayscale) === //
 function applyFilter(canvas, ctx) {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const pixels = imageData.data;
 
-  // Sepia tint colours:
+  // Light sepia tint colours:
   const tintRed   = 255;
-  const tintGreen = 230;
-  const tintBlue  = 200;
+  const tintGreen = 245;
+  const tintBlue  = 220;
 
-  // Loop through the all pixel values [Red, Green, Blue, Alpha]
   for (let i = 0; i < pixels.length; i += 4) {
-
     const r = pixels[i];
     const g = pixels[i + 1];
     const b = pixels[i + 2];
 
-    // Adjusting the snapshot brightness to be grayscale
-    const gray = 0.3 * r + 0.59 * g + 0.11 * b;
+    let gray = 0.3 * r + 0.59 * g + 0.11 * b;
 
-    // Apply the tint to the grayscale values
     pixels[i]     = gray * (tintRed / 255);
-    pixels[i + 1] = gray * (tintGreen / 255); 
-    pixels[i + 2] = gray * (tintBlue / 255); 
+    pixels[i + 1] = gray * (tintGreen / 255);
+    pixels[i + 2] = gray * (tintBlue / 255);
     // Pixels[i + 3] gets ignored (Alpha = Transparency)
   }
 
   ctx.putImageData(imageData, 0, 0);
 }
 
-// === Crop Snapsot (From Middle of Webcam Feed) === //
+// === Main Capture Logic === //
 function capture() {
   const w = croppedCanvas.width;
-  const h = croppedCanvas.height; 
+  const h = croppedCanvas.height;
 
   const cx = video.videoWidth / 2;
   const cy = video.videoHeight / 2;
-
-  const sx = cx - w / 2; 
+  const sx = cx - w / 2;
   const sy = cy - h / 2;
 
+  // Draw webcam snapshot into cropped canvas
   cropCtx.drawImage(video, sx, sy, w, h, 0, 0, w, h);
   applyFilter(croppedCanvas, cropCtx);
 
-  const dataUrl = croppedCanvas.toDataURL();
-  finalPhoto.src = dataUrl; 
-  popup.style.display = 'flex'; 
-  
-  // === Saving to Local Storage === //
-  localStorage.setItem('bjorkifiedImage', dataUrl);
+  // Load and draw overlay image on top
+  const overlayImage = new Image();
+  overlayImage.src = './overlay.png';
+  overlayImage.onload = () => {
+    cropCtx.drawImage(overlayImage, 0, 0, w, h);
+
+    // Export final image
+    const dataUrl = croppedCanvas.toDataURL();
+    finalPhoto.src = dataUrl;
+    popup.style.display = 'flex';
+    localStorage.setItem('madonnaifiedImage', dataUrl);
+  };
 }
 
 // === Retry Button === //
 function retry() {
-  popup.style.display = 'none'; // Remove pop-up
+  popup.style.display = 'none';
 }
