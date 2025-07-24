@@ -1,15 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
   const galleryContainer = document.getElementById('gallery');
 
-  const savedImages = JSON.parse(localStorage.getItem('albumCovers')) || [];
+  const imageList = getImageList();
 
-  savedImages.forEach((imageData, index) => {
+  imageList.forEach(async (imageMetadata, index) => {
+    const canvas = await getImage(imageMetadata.imageId);
+
     const card = document.createElement('div');
     card.classList.add('card');
 
     const img = document.createElement('img');
-    img.src = imageData;
+    img.src = canvas.toDataURL();
     card.appendChild(img);
+
+    const imageData = canvas.toDataURL();
 
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons');
