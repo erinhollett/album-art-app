@@ -68,14 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
     buttonsDiv.appendChild(copyBtn);
 
     // Delete Button
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = '🗑️ Delete';
-    deleteBtn.onclick = () => {
-    savedImages = savedImages.filter(img => img !== imageData);
-    localStorage.setItem('albumCovers', JSON.stringify(savedImages));
-    renderGallery(); // Re-render after deletion
-    };
-    buttonsDiv.appendChild(deleteBtn);
+      //  Add delete button
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.classList.add('delete-btn');
+
+      //  Attach delete logic
+      deleteButton.addEventListener('click', () => {
+        // Remove the image at current index
+        savedImages.splice(index, 1);
+
+        //  Update localStorage
+        localStorage.setItem('albumCovers', JSON.stringify(savedImages));
+
+        // Re-render the gallery
+        renderGallery();
+      });
 
 
 
