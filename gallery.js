@@ -67,16 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     buttonsDiv.appendChild(copyBtn);
 
-
-    // Delete
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = '🗑️ Delete';
-    deleteBtn.onclick = () => {
-      const updatedImages = savedImages.filter((img, i) => i !== index);
-      localStorage.setItem('albumCovers', JSON.stringify(updatedImages));
-      renderGallery(); // Re-render after deletion
-       };
+// delete Button
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '🗑️ Delete';
+      deleteBtn.onclick = () => {
+        // Remove from array and localStorage
+        savedImages.splice(index, 1);
+        localStorage.setItem('albumCovers', JSON.stringify(savedImages));
+        renderGallery(); // Re-render the gallery
+      };
       buttonsDiv.appendChild(deleteBtn);
+
       card.appendChild(buttonsDiv);
       galleryContainer.appendChild(card);
   });
