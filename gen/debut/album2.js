@@ -15,20 +15,23 @@ const cropCtx = croppedCanvas.getContext('2d'); // Cropped Image Area
 const albumImage = new Image();
 albumImage.src = './album2.png';
 albumImage.onload = () => {
-  templateCtx.clearRect(0, 0, templateOverlay.width, templateOverlay.height);
   templateCtx.drawImage(albumImage, 0, 0, templateOverlay.width, templateOverlay.height);
 }
 
 // === Start Webcam === //
 navigator.mediaDevices.getUserMedia({ video: true })
-  .then(stream => video.srcObject = stream)
-  .catch(err => console.error("Webcam error:", err));
+  .then(stream => {
+    video.srcObject = stream;
 
-// === Start Button with Countdown === //
-document.getElementById('startBtn').addEventListener('click', async () => {
-  await countdown(3); // Initialize countdown before capture
-  capture(); 
-});
+    // === Start Button with Countdown === //
+    document.getElementById('startBtn').addEventListener('click', async () => {
+      await countdown(3); // Initialize countdown before capture
+      capture(); 
+    });
+  })
+  .catch(err => {
+    console.error("Webcam error:", err);
+  });
 
 // === Countdown Display === //
 async function countdown(seconds) {
@@ -74,16 +77,18 @@ function applyFilter(canvas, ctx) {
 
 // === Crop Snapsot (From Middle of Webcam Feed) === //
 function capture() {
-  const w = croppedCanvas.width;
-  const h = croppedCanvas.height; 
+  const cropWidth = croppedCanvas.width;
+  const cropHeight = croppedCanvas.height; 
 
-  const cx = video.videoWidth / 2;
-  const cy = video.videoHeight / 2;
+  // Getting the center coordinates of the webcam video:
+  const videoCenterX = video.videoWidth / 2;
+  const videoCenterY = video.videoHeight / 2;
 
-  const sx = cx - w / 2; 
-  const sy = cy - h / 2;
+  // Getting where to crop from middle
+  const cropStartX = videoCenterX - cropWidth / 2; 
+  const cropStartY = videoCenterY - cropHeight / 2;
 
-  cropCtx.drawImage(video, sx, sy, w, h, 0, 0, w, h);
+  cropCtx.drawImage(video, cropStartX, cropStartY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
   applyFilter(croppedCanvas, cropCtx);
 
   const dataUrl = croppedCanvas.toDataURL();

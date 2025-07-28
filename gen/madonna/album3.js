@@ -19,16 +19,19 @@ albumImage.onload = () => {
   templateCtx.drawImage(albumImage, 0, 0, templateOverlay.width, templateOverlay.height);
 };
 
-// === Start Webcam === //
 navigator.mediaDevices.getUserMedia({ video: true })
-  .then(stream => video.srcObject = stream)
-  .catch(err => console.error("Webcam error:", err));
+  .then(stream => {
+    video.srcObject = stream;
 
-// === Start Button with Countdown === //
-document.getElementById('startBtn').addEventListener('click', async () => {
-  await countdown(3);
-  capture();
-});
+    // === Start Button with Countdown === //
+    document.getElementById('startBtn').addEventListener('click', async () => {
+      await countdown(3); // Initialize countdown before capture
+      capture(); 
+    });
+  })
+  .catch(err => {
+    console.error("Webcam error:", err);
+  });
 
 // === Countdown Display === //
 async function countdown(seconds) {
