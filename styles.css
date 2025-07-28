@@ -89,3 +89,88 @@ footer {
   width: 100%;
   bottom: 0;
 }
+
+
+/* Responsive tweaks for screens up to 600px */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .gallery {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    margin-bottom: 1rem;
+    transition: transform 0.2s;
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.album-card {
+  background-color: #ffffff;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 180px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.album-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.album-card p {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.album-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+
