@@ -110,10 +110,11 @@ footer {
     gap: 0.5rem;
   }
 
-  .gallery {
-    flex-direction: column;
-    align-items: center;
-  }
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
   .card {
     width: 90%;
@@ -131,6 +132,7 @@ footer {
     font-size: 0.9rem;
   }
 }
+
 
 
 
