@@ -1,74 +1,90 @@
 document.addEventListener('DOMContentLoaded', () => {
   const galleryContainer = document.getElementById('gallery');
 
-  const savedImages = JSON.parse(localStorage.getItem('albumCovers')) || [];
+  let savedImages = JSON.parse(localStorage.getItem('albumCovers')) || [];
 
-  savedImages.forEach((imageData, index) => {
-    const card = document.createElement('div');
-    card.classList.add('card');
+  function renderGallery() {
+    galleryContainer.innerHTML = ''; // Clear gallery first
 
-    const img = document.createElement('img');
-    img.src = imageData;
-    card.appendChild(img);
+    savedImages.forEach((imageData, index) => {
+      const card = document.createElement('div');
+      card.classList.add('card');
 
-    const buttonsDiv = document.createElement('div');
-    buttonsDiv.classList.add('buttons');
+      const img = document.createElement('img');
+      img.src = imageData;
+      card.appendChild(img);
 
-    // Download Button
-    const downloadBtn = document.createElement('button');
-    downloadBtn.textContent = '📥 Download';
-    downloadBtn.onclick = () => {
-      const a = document.createElement('a');
-      a.href = imageData;
-      a.download = `cover-${index + 1}.png`;
-      a.click();
-    };
-    buttonsDiv.appendChild(downloadBtn);
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.classList.add('buttons');
 
-    // Share Button
-    const shareBtn = document.createElement('button');
-    shareBtn.textContent = '📤 Share';
-    shareBtn.onclick = async () => {
-      if (navigator.canShare && navigator.canShare({ files: [] })) {
-        const response = await fetch(imageData);
-        const blob = await response.blob();
-        const file = new File([blob], `cover-${index + 1}.png`, { type: blob.type });
+      // Download Button
+      const downloadBtn = document.createElement('button');
+      downloadBtn.textContent = '📥 Download';
+      downloadBtn.onclick = () => {
+        const a = document.createElement('a');
+        a.href = imageData;
+        a.download = `cover-${index + 1}.png`;
+        a.click();
+      };
+      buttonsDiv.appendChild(downloadBtn);
 
-        try {
-          await navigator.share({
-            files: [file],
-            title: 'My Album Cover',
-            text: 'Check out my parody album cover!',
-          });
-        } catch (err) {
-          console.error('Sharing failed', err);
-          alert('Sharing failed or canceled.');
+      // Share Button
+      const shareBtn = document.createElement('button');
+      shareBtn.textContent = '📤 Share';
+      shareBtn.onclick = async () => {
+        if (navigator.canShare && navigator.canShare({ files: [] })) {
+          const response = await fetch(imageData);
+          const blob = await response.blob();
+          const file = new File([blob], `cover-${index + 1}.png`, { type: blob.type });
+
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'My Album Cover',
+              text: 'Check out my parody album cover!',
+            });
+          } catch (err) {
+            console.error('Sharing failed', err);
+            alert('Sharing failed or canceled.');
+          }
+        } else {
+          alert('Sharing is not supported on this browser.');
         }
-      } else {
-        alert('Sharing is not supported on this browser.');
-      }
-    };
-    buttonsDiv.appendChild(shareBtn);
+      };
+      buttonsDiv.appendChild(shareBtn);
 
-    // Copy URL Button
-    const copyBtn = document.createElement('button');
-    copyBtn.textContent = '📋 Copy URL';
-    copyBtn.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(imageData);
-        alert('Image URL copied to clipboard!');
-      } catch (err) {
-        alert('Failed to copy!');
-      }
-    };
-    buttonsDiv.appendChild(copyBtn);
+      // Copy URL Button
+      const copyBtn = document.createElement('button');
+      copyBtn.textContent = '📋 Copy URL';
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(imageData);
+          alert('Image URL copied to clipboard!');
+        } catch (err) {
+          alert('Failed to copy!');
+        }
+      };
+      buttonsDiv.appendChild(copyBtn);
 
-    card.appendChild(buttonsDiv);
-    galleryContainer.appendChild(card);
-  });
+      // 🗑️ Delete Button
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = '🗑️ Delete';
+      deleteBtn.onclick = () => {
+        // Remove from array and localStorage
+        savedImages.splice(index, 1);
+        localStorage.setItem('albumCovers', JSON.stringify(savedImages));
+        renderGallery(); // Re-render the gallery
+      };
+      buttonsDiv.appendChild(deleteBtn);
+
+      card.appendChild(buttonsDiv);
+      galleryContainer.appendChild(card);
+    });
+  }
+
+  renderGallery(); // Initial render
 });
 
-// final modifications
 
 
 
