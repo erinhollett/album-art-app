@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const galleryContainer = document.getElementById('gallery');
+    function renderGallery() { //  Added function to encapsulate rendering logic
+    galleryContainer.innerHTML = ''; // Clear previous content before rendering
 
   const savedImages = JSON.parse(localStorage.getItem('albumCovers')) || [];
 
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareBtn = document.createElement('button');
     shareBtn.textContent = '📤 Share';
     shareBtn.onclick = async () => {
+      
       if (navigator.canShare && navigator.canShare({ files: [] })) {
         const response = await fetch(imageData);
         const blob = await response.blob();
@@ -63,23 +66,24 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     buttonsDiv.appendChild(copyBtn);
 
-// delete Button
+      // Delete Button
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = '🗑️ Delete';
       deleteBtn.onclick = () => {
-        // Remove from array and localStorage
-        savedImages.splice(index, 1);
-        localStorage.setItem('albumCovers', JSON.stringify(savedImages));
-        renderGallery(); // Re-render the gallery
+        const updatedImages = JSON.parse(localStorage.getItem('albumCovers')) || []; // Re-fetch current state
+        updatedImages.splice(index, 1); // Remove selected image
+        localStorage.setItem('albumCovers', JSON.stringify(updatedImages)); //  Save updated list
+        renderGallery(); //  Refresh the gallery
       };
       buttonsDiv.appendChild(deleteBtn);
 
       card.appendChild(buttonsDiv);
       galleryContainer.appendChild(card);
-  });
+    });
+  }
 
+  renderGallery(); //  Initial render call
 });
-
 
 
 
