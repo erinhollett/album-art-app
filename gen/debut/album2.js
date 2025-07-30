@@ -104,3 +104,10 @@ function capture() {
 function retry() {
   popup.style.display = 'none'; // Remove pop-up
 }
+
+//"Try Another Template" Button
+const tryAnother = document.getElementById("new-template");
+
+tryAnother.addEventListener('click', function() {
+  window.location.href = "../../index.html";
+}); 
