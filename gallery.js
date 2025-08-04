@@ -27,31 +27,36 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     buttonsDiv.appendChild(downloadBtn);
 
-    // Share Button
-    const shareBtn = document.createElement('button');
-    shareBtn.textContent = '📤 Share';
-    shareBtn.onclick = async () => {
-      
-      if (navigator.canShare && navigator.canShare({ files: [] })) {
-        const response = await fetch(imageData);
-        const blob = await response.blob();
-        const file = new File([blob], `cover-${index + 1}.png`, { type: blob.type });
-
+      //  UPDATED: Share Button with fallback support
+      const shareBtn = document.createElement('button');
+      shareBtn.textContent = '📤 Share';
+      shareBtn.onclick = async () => {
         try {
-          await navigator.share({
-            files: [file],
-            title: 'My Album Cover',
-            text: 'Check out my parody album cover!',
-          });
+          if (navigator.canShare && navigator.canShare({ files: [] })) {
+            const response = await fetch(imageData);
+            const blob = await response.blob();
+            const file = new File([blob], `cover-${index + 1}.png`, { type: blob.type });
+
+            await navigator.share({
+              files: [file],
+              title: 'My Album Cover',
+              text: 'Check out my parody album cover!',
+            });
+          } else if (navigator.share) { // Fallback: Share URL and text only
+            await navigator.share({
+              title: 'My Album Cover',
+              text: 'Check out my parody album cover!',
+              url: imageData,
+            });
+          } else {
+            alert('Sharing is not supported on this browser.');
+          }
         } catch (err) {
           console.error('Sharing failed', err);
           alert('Sharing failed or canceled.');
         }
-      } else {
-        alert('Sharing is not supported on this browser.');
-      }
-    };
-    buttonsDiv.appendChild(shareBtn);
+      };
+      buttonsDiv.appendChild(shareBtn);
 
     // Copy URL Button
     const copyBtn = document.createElement('button');
