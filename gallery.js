@@ -70,16 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     buttonsDiv.appendChild(copyBtn);
 
-      // Delete Button
-      const deleteBtn = document.createElement('button');
-      deleteBtn.textContent = '🗑️ Delete';
-      deleteBtn.onclick = () => {
-        const updatedImages = JSON.parse(localStorage.getItem('albumCovers')) || []; // Re-fetch current state
-        updatedImages.splice(index, 1); // Remove selected image
-        localStorage.setItem('albumCovers', JSON.stringify(updatedImages)); //  Save updated list
-        renderGallery(); //  Refresh the gallery
-      };
-      buttonsDiv.appendChild(deleteBtn);
+
 
       card.appendChild(buttonsDiv);
       galleryContainer.appendChild(card);
