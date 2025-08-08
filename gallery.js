@@ -73,10 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Failed to copy!');
       }
     };
-    buttonsDiv.appendChild(copyBtn);
+    buttonsDiv.appendChild(copyBtn)
+    
+    //Delete Button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", function() {
+      if (confirm("Are you sure you want to delete this image? This action cannot be undone.")) {
+        card.remove();
+        localStorage.removeItem(imageMetadata.imageId); //removes image by imageId
+        let imageList = JSON.parse(localStorage.getItem('images') || '[]');
+        imageList = imageList.filter(image => image.imageId !== imageMetadata.imageId); //filtering out the removed imageId
+        localStorage.setItem('images', JSON.stringify(imageList)); //updating localStorage
+      }
+    });
 
-
-
+      buttonsDiv.appendChild(deleteBtn);
+  
       card.appendChild(buttonsDiv);
       galleryContainer.appendChild(card);
     });
@@ -84,8 +97,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderGallery(); //  Initial render call
 });
-
-
-
 
 
