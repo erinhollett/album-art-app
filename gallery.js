@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   imageList.forEach(async (imageMetadata, index) => {
     const canvas = await getImage(imageMetadata.imageId);
-
+  
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await navigator.share({
               title: 'My Album Cover',
               text: 'Check out my parody album cover!',
-              url: imageData,
+              //url: imageData, removed due to 'invalid url' error
             });
           } else {
             alert('Sharing is not supported on this browser.');

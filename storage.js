@@ -15,7 +15,8 @@ function saveImage(albumName, imageCanvas) {
 
 // === Retrieve list of saved images === //
 function getImageList() {
-  return JSON.parse(localStorage.getItem(imageListKey) || '[]');
+  const imageList = JSON.parse(localStorage.getItem(imageListKey) || '[]');
+  return imageList.filter(image => localStorage.getItem(image.imageId) !== null); //filters out imageId's not in localStorage
 }
 
 // === Add a new entry to the image info list === //
