@@ -82,9 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (confirm("Are you sure you want to delete this image? This action cannot be undone.")) {
         card.remove();
         localStorage.removeItem(imageMetadata.imageId); //removes image by imageId
-        let imageList = JSON.parse(localStorage.getItem('images') || '[]');
+        let imageList = JSON.parse(localStorage.getItem(imageListKey) || '[]');
         imageList = imageList.filter(image => image.imageId !== imageMetadata.imageId); //filtering out the removed imageId
-        localStorage.setItem('images', JSON.stringify(imageList)); //updating localStorage
+        localStorage.setItem(imageListKey, JSON.stringify(imageList)); //updating localStorage
       }
     });
 
