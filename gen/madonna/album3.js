@@ -110,4 +110,11 @@ const tryAnother = document.getElementById("new-template");
 
 tryAnother.addEventListener('click', function() {
   window.location.href = "../../index.html";
+});
+
+//"View Your Image" Button
+const viewImage = document.getElementById("view-image");
+
+viewImage.addEventListener('click', function() {
+  window.location.href = "../../gallery.html";
 }); 
