@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     //Delete Button
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = "Delete";
+    deleteBtn.textContent = " 🗑️ Delete";
     deleteBtn.addEventListener("click", function() {
       if (confirm("Are you sure you want to delete this image? This action cannot be undone.")) {
         card.remove();

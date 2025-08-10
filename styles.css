@@ -10,6 +10,7 @@ header {
   color: #333;
   padding: 25px; /* Increased padding for longer header */
   text-align: center;
+  box-shadow: 4px 4px 4px white;
 }
 
 nav a {
@@ -28,6 +29,7 @@ nav a:hover {
   background-color: #007bff;
   color: white;
   border-color: #007bff;
+  box-shadow: 2px 2px 2px #007bff;
 }
 
 .container {
@@ -85,9 +87,9 @@ footer {
   background-color: #add8e6; /* Light blue */
   color: #333;
   text-align: center;
- 
   width: 100%;
-  
+  position: fixed;
+  bottom: 0;
 }
 
 
