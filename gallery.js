@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await navigator.clipboard.write([
           new ClipboardItem({[blob.type]: blob})
         ]);
-        alert('Image URL copied to clipboard!');
+        alert('Image copied to clipboard!');
       } catch (err) {
         alert('Failed to copy image.');
       }
