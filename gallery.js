@@ -31,26 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     buttonsDiv.appendChild(downloadBtn);
 
-      //  UPDATED: Share Button with fallback support
       const shareBtn = document.createElement('button');
       shareBtn.textContent = '📤 Share';
       shareBtn.onclick = async () => {
         try {
-          if (navigator.canShare && navigator.canShare({ files: [] })) {
-            const response = await fetch(imageData);
-            const blob = await response.blob();
-            const file = new File([blob], `cover-${index + 1}.png`, { type: blob.type });
-
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png')); // Turns image to PNG blob object instead of toDataURL
+          if (!blob) throw new Error('Canvas toBlob Failed');
+          const file = new File([blob], `cover-${index + 1}.png`, { type: 'image/png' });
+          // Check if the browswer supports sharing files first
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            // Share the image file directly
             await navigator.share({
               files: [file],
               title: 'My Album Cover',
               text: 'Check out my parody album cover!',
             });
+            return;
           } else if (navigator.share) { // Fallback: Share URL and text only
             await navigator.share({
               title: 'My Album Cover',
               text: 'Check out my parody album cover!',
-              //url: imageData, removed due to 'invalid url' error
             });
           } else {
             alert('Sharing is not supported on this browser.');
