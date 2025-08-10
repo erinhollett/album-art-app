@@ -64,13 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Copy URL Button
     const copyBtn = document.createElement('button');
-    copyBtn.textContent = '📋 Copy URL';
+    copyBtn.textContent = '📋 Copy Image';
     copyBtn.onclick = async () => {
       try {
-        await navigator.clipboard.writeText(imageData);
+        const blob = await new Promise(res => canvas.toBlob(res, 'image/png'))
+        await navigator.clipboard.write([
+          new ClipboardItem({[blob.type]: blob})
+        ]);
         alert('Image URL copied to clipboard!');
       } catch (err) {
-        alert('Failed to copy!');
+        alert('Failed to copy image.');
       }
     };
     buttonsDiv.appendChild(copyBtn)
