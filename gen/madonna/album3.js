@@ -111,3 +111,8 @@ const tryAnother = document.getElementById("new-template");
 tryAnother.addEventListener('click', function() {
   window.location.href = "../../index.html";
 }); 
+
+const viewCreation = document.getElementById("view-creation")
+viewCreation.addEventListener('click', function() {
+  window.location.href = "../../gallery.html";
+})
