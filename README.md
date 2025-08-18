@@ -2,7 +2,7 @@
 Album Art App
 
 ## Demo Video
-[![Watch the video](https://img.youtube.com/vi/d7oHn-CUBig/0.jpg)](https://www.youtube.com/watch?v=d7oHn-CUBig)
+[![Watch the video](https://img.youtube.com/vi/wVsB8JFAKGo/0.jpg)](https://www.youtube.com/watch?v=wVsB8JFAKGo)
 
 ## Project Resources
 - [Issue Board](https://github.com/users/erinhollett/projects/1)
