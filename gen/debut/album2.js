@@ -97,7 +97,7 @@ function capture() {
   
   // === Saving to Local Storage === //
   //localStorage.setItem('bjorkifiedImage', dataUrl);
-  saveImage('madonna', croppedCanvas);
+  saveImage('bjork', croppedCanvas);
 }
 
 // === Retry Button === //
